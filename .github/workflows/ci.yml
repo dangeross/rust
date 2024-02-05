@@ -35,7 +35,7 @@ jobs:
       - name: Check out cargo-wasix
         uses: actions/checkout@v3
         with:
-          repository: wasix-org/cargo-wasix
+          repository: dangeross/cargo-wasix
           ref: main
           path: cargo-wasix
           fetch-depth: 2
@@ -117,7 +117,7 @@ jobs:
       - name: Check out cargo-wasix
         uses: actions/checkout@v3
         with:
-          repository: wasix-org/cargo-wasix
+          repository: dangeross/cargo-wasix
           ref: main
           path: cargo-wasix
 
