@@ -11,8 +11,6 @@ pub fn target() -> Target {
     options.add_pre_link_args(LinkerFlavor::WasmLld(Cc::No), &["-mwasm64"]);
     options.add_pre_link_args(LinkerFlavor::WasmLld(Cc::Yes), &[
         "--target=wasm64-wasi",
-        // We need shared memory for multithreading
-        "--shared-memory",
         "--no-check-features"
     ]);
 
@@ -23,8 +21,8 @@ pub fn target() -> Target {
     options.link_self_contained = LinkSelfContainedDefault::True;
 
     // WASI(X) now supports multi-threading
-    options.singlethread = false;
-    
+    options.singlethread = true;
+
     // Right now this is a bit of a workaround but we're currently saying that
     // the target by default has a static crt which we're taking as a signal
     // for "use the bundled crt". If that's turned off then the system's crt
@@ -52,7 +50,7 @@ pub fn target() -> Target {
     // TODO: Adding "+atomics" here seems to enable more of the multithreading however it does not yet
     //       work properly so more work is needed to finish this, otherwise this is very close to
     //       full networking support.
-    options.features = "+bulk-memory,+atomics,+mutable-globals,+sign-ext,+nontrapping-fptoint".into();
+    options.features = "+bulk-memory,+mutable-globals,+sign-ext,+nontrapping-fptoint".into();
 
     Target {
         llvm_target: "wasm64-wasi".into(),

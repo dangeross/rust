@@ -81,8 +81,6 @@ pub fn target() -> Target {
     options.vendor = "wasmer".into();
     options.add_pre_link_args(LinkerFlavor::WasmLld(Cc::Yes), &[
         "--target=wasm32-wasi",
-        // We need shared memory for multithreading
-        "--shared-memory",
         "--no-check-features"
     ]);
 
@@ -93,7 +91,7 @@ pub fn target() -> Target {
     options.link_self_contained = LinkSelfContainedDefault::True;
 
     // WASI(X) now supports multi-threading
-    options.singlethread = false;
+    options.singlethread = true;
 
     // Right now this is a bit of a workaround but we're currently saying that
     // the target by default has a static crt which we're taking as a signal
@@ -117,8 +115,8 @@ pub fn target() -> Target {
     options.entry_name = "__main_void".into();
 
     // WASIX enables more WASM features
-    options.features = "+bulk-memory,+atomics,+mutable-globals,+sign-ext,+nontrapping-fptoint".into();
-    
+    options.features = "+bulk-memory,+mutable-globals,+sign-ext,+nontrapping-fptoint".into();
+
     Target {
         llvm_target: "wasm32-wasi".into(),
         pointer_width: 32,
