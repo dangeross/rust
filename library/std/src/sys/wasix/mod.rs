@@ -33,22 +33,13 @@ pub mod time;
 
 cfg_if::cfg_if! {
     if #[cfg(target_feature = "atomics")] {
-        //#[cfg_attr(target_pointer_width = "32", path = "../wasm/atomics/futex.rs")]
-        #[cfg_attr(target_pointer_width = "32", path = "atomics/futex.rs")]
-        #[cfg_attr(target_pointer_width = "64", path = "atomics/futex.rs")]
-        pub mod futex;
-        #[path = "../unix/thread.rs"]
-        pub mod thread;
         #[path = "../unix/thread_local_key.rs"]
         //#[path = "atomics/thread_local_key.rs"]
         pub mod thread_local_key;
-        #[path = "../unix/stack_overflow.rs"]
-        pub mod stack_overflow;
         #[path = "../unix/locks"]
         pub mod locks {
             // FIXME: still needed?
             #![allow(unsafe_op_in_unsafe_fn)]
-
             mod futex_mutex;
             mod futex_rwlock;
             mod futex_condvar;
@@ -56,15 +47,23 @@ cfg_if::cfg_if! {
             pub(crate) use futex_mutex::Mutex;
             pub(crate) use futex_rwlock::RwLock;
         }
+        //#[cfg_attr(target_pointer_width = "32", path = "../wasm/atomics/futex.rs")]
+        #[cfg_attr(target_pointer_width = "32", path = "atomics/futex.rs")]
+        #[cfg_attr(target_pointer_width = "64", path = "atomics/futex.rs")]
+        pub mod futex;
+        #[path = "../unix/thread.rs"]
+        pub mod thread;
+        #[path = "../unix/stack_overflow.rs"]
+        pub mod stack_overflow;
     } else {
         #[allow(unused)]
         #[path = "../wasm/atomics/futex.rs"]
         pub mod futex;
         #[path = "../wasi/thread.rs"]
         pub mod thread;
-        #[path = "../unsupported/locks/mod.rs"]
         #[path = "../unsupported/thread_local_key.rs"]
         pub mod thread_local_key;
+        #[path = "../unsupported/locks/mod.rs"]
         pub mod locks;
         #[path = "../unsupported/once.rs"]
         pub mod once;
