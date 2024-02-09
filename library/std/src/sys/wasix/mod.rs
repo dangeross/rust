@@ -56,13 +56,10 @@ cfg_if::cfg_if! {
         #[path = "../unix/stack_overflow.rs"]
         pub mod stack_overflow;
     } else {
-        #[allow(unused)]
-        #[path = "../wasm/atomics/futex.rs"]
-        pub mod futex;
-        #[path = "../wasi/thread.rs"]
-        pub mod thread;
         #[path = "../unsupported/thread_local_key.rs"]
         pub mod thread_local_key;
+        #[path = "../unsupported/thread.rs"]
+        pub mod thread;
         #[path = "../unsupported/locks/mod.rs"]
         pub mod locks;
         #[path = "../unsupported/once.rs"]
