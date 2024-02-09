@@ -15,7 +15,7 @@ impl Thread {
         unsupported()
     }
 
-    pub unsafe fn new_reactor<F>(p: F) -> io::Result<Thread>
+    pub unsafe fn new_reactor<F>(_p: F) -> io::Result<Thread>
     where F: Fn() + Send + Sync + 'static {
         unsupported()
     }
