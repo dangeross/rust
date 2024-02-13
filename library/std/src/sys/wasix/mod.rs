@@ -16,6 +16,7 @@ pub mod fd;
 pub mod fs;
 #[path = "../wasi/io.rs"]
 pub mod io;
+
 pub mod net;
 pub mod os;
 #[path = "../unix/os_str.rs"]
@@ -56,6 +57,9 @@ cfg_if::cfg_if! {
         #[path = "../unix/stack_overflow.rs"]
         pub mod stack_overflow;
     } else {
+        #[allow(unused)]
+        #[path = "../wasm/atomics/futex.rs"]
+        pub mod futex;
         #[path = "../unsupported/thread_local_key.rs"]
         pub mod thread_local_key;
         #[path = "../unsupported/thread.rs"]
