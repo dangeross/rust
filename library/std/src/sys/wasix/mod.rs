@@ -58,6 +58,7 @@ cfg_if::cfg_if! {
         pub mod stack_overflow;
     } else {
         #[allow(unused)]
+        #[cfg(target_arch = "wasm32")]
         #[path = "../wasm/atomics/futex.rs"]
         pub mod futex;
         #[path = "../unsupported/thread_local_key.rs"]
